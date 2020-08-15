@@ -16,9 +16,13 @@ repositories {
 dependencies {
     compileOnly("jakarta.platform:jakarta.jakartaee-api:8.0.0")
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.72")
-    implementation("org.jnosql.diana:diana-document:${jnosqlVersion}")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.3.72")
+
+    implementation("org.jnosql.artemis:artemis-core:${jnosqlVersion}")
+    implementation("org.jnosql.artemis:artemis-configuration:${jnosqlVersion}")
     implementation("org.jnosql.diana:mongodb-driver:${jnosqlVersion}")
+    implementation("org.slf4j:slf4j-api:1.7.25")
+
 
     compileOnly("org.eclipse.krazo:krazo-jersey:1.0.0-RC1")
     compileOnly("jakarta.mvc:jakarta.mvc-api:1.1-RC1")
@@ -28,11 +32,12 @@ dependencies {
 
 }
 
-//allOpen {
-//    annotation("javax.persistence.Entity")
-//    annotation("javax.persistence.Embeddable")
-//    annotation("javax.persistence.MappedSuperclass")
-//}
+allOpen {
+    annotation("javax.persistence.Entity")
+    annotation("javax.persistence.Embeddable")
+    annotation("javax.persistence.MappedSuperclass")
+    annotation("javax.enterprise.context.ApplicationScoped")
+}
 //
 //node {
 //    version = "12.18.3"
@@ -42,3 +47,7 @@ dependencies {
 //    npmWorkDir = file("${project.buildDir}/npm")
 //    nodeModulesDir = file("${project.projectDir}")
 //}
+
+val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
+
+compileKotlin.kotlinOptions.jvmTarget = "11"
