@@ -1,35 +1,37 @@
 package kotlinhyderabad.bookstore.controllers
 
-import kotlinhyderabad.bookstore.configuration.database.DbInitializer
 import kotlinhyderabad.bookstore.models.Book
-import kotlinhyderabad.bookstore.repository.BooksRepo
-import org.jnosql.artemis.Database
-import org.jnosql.artemis.DatabaseType
-import javax.annotation.PostConstruct
+import org.jnosql.artemis.document.DocumentTemplate
+import org.jnosql.diana.api.document.DocumentQuery
+import org.jnosql.diana.api.document.query.DocumentQueryBuilder.select
+import java.util.*
 import javax.inject.Inject
 import javax.ws.rs.GET
 import javax.ws.rs.POST
 import javax.ws.rs.Path
 
+
 @Path("/api/books")
 open class BookStoreController {
 
-    private var booksRepo: BooksRepo ?= null
-
     @Inject
-    lateinit var dbInitializer: DbInitializer
+    var documentTemplate: DocumentTemplate? = null
 
     @GET
-    fun getBook(): Book {
-        return Book()
+    fun getBook(): MutableList<Book>? {
+        val query: DocumentQuery = select().from("book").build()
+        return documentTemplate?.select(query)
     }
 
     @POST
     fun saveBook() : Book? {
+        val random = Random()
+        val id: Long = random.nextLong()
         val book = Book()
+        book.id = id
         book.bookName = "Effective Java"
         book.author = "Joshi Bloch"
         book.publisher = "ORelly"
-        return booksRepo?.save(book)
+        return documentTemplate?.insert(book)
     }
 }

@@ -19,7 +19,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.3.72")
 
     implementation("org.jnosql.artemis:artemis-core:${jnosqlVersion}")
-    implementation("org.jnosql.artemis:artemis-configuration:${jnosqlVersion}")
+    implementation("org.jnosql.artemis:artemis-document:${jnosqlVersion}")
     implementation("org.jnosql.diana:mongodb-driver:${jnosqlVersion}")
     implementation("org.slf4j:slf4j-api:1.7.25")
 
